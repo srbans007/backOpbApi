@@ -2,6 +2,8 @@ import { Request, Response} from 'express';
 import bcrypt from 'bcrypt';
 import { User } from '../models/user';
 import jwt from 'jsonwebtoken';
+import fs from 'fs';
+import path from 'path';
 
 export const newUser = async (req: Request, res: Response) => {
 
@@ -37,30 +39,55 @@ export const newUser = async (req: Request, res: Response) => {
 }
 
 export const loginUser = async (req: Request, res: Response) => {
+    // Extrae el encabezado de autorización
+    const authHeader = req.headers.authorization;
 
-    const { username, password } = req.body;
+    if (!authHeader || !authHeader.startsWith('Basic ')) {
+        return res.status(401).json({
+            msg: "Error de Autenticación"
+        });
+    }
 
-   // Validamos si el usuario existe en la base de datos
-   const user: any = await User.findOne({ where: { username: username } });
+    // Decodifica el encabezado de autorización
+    const base64Credentials = authHeader.split(' ')[1];
+    const credentials = Buffer.from(base64Credentials, 'base64').toString('utf8');
+    const [username, password] = credentials.split(':');
 
-   if(!user) {
+    // Validamos si el usuario existe en la base de datos
+    const user: any = await User.findOne({ where: { username: username } });
+
+    if(!user) {
         return res.status(400).json({
-            msg: `No existe un usuario con el nombre ${username} en la base datos`
-        })
-   }
+            msg: `Usuario ${username} no existe`
+        });
+    }
 
-   // Validamos password
-   const passwordValid = await bcrypt.compare(password, user.password)
-   if(!passwordValid) {
-    return res.status(400).json({
-        msg: `Password Incorrecta`
-    })
-   }
+    // Validamos password
+    const passwordValid = await bcrypt.compare(password, user.password);
+    if(!passwordValid) {
+        return res.status(400).json({
+            msg: `Password Incorrecta`
+        });
+    }
 
-   // Generamos token
-   const token = jwt.sign({
-    username: username
-   }, process.env.SECRET_KEY || 'pepito123');
-   
-   res.json(token);
+
+    // Crea y firma el token
+    // Construye la ruta al archivo
+    const keyPath = path.join(__dirname, '..', 'keys', 'pvOpv.pem');
+
+    // Lee la clave privada desde el archivo
+    const privateKey = fs.readFileSync(keyPath, 'utf8');
+
+    const token = jwt.sign(
+        { 
+            username: username 
+        },
+            privateKey,
+        { 
+            algorithm: 'RS256',
+            expiresIn: '24h'
+        }  // Especifica que quieres usar el algoritmo RS256
+    );
+
+    res.json(token);
 }
