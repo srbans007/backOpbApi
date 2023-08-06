@@ -6,3 +6,13 @@ export const getTroncal = async (req: Request, res: Response) => {
 
     res.json(listTroncal)
 }
+
+export const insertTroncal = async (req: Request, res: Response) => {
+    try {
+      const newTroncal = await CargaTroncal.bulkCreate(req.body);
+      res.json(newTroncal);
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ error: 'Error al insertar datos' });
+    }
+  }

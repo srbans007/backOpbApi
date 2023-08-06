@@ -1,6 +1,5 @@
 import express, { Application } from 'express';
 import cors from 'cors';
-import routesProduct from '../routes/product';
 import routesUser from '../routes/user';
 import routesTroncal from '../routes/cargaTroncal';
 import { Product } from './product';
@@ -28,9 +27,10 @@ class Server {
     }
 
     routes() {
-        this.app.use('/api/products', routesProduct);
+        //this.app.use('/api/products', routesProduct);
         this.app.use('/api/users', routesUser);
         this.app.use('/api/troncal', routesTroncal);
+        this.app.use('/api/troncal/insert', routesTroncal);
     }
 
     midlewares() {
