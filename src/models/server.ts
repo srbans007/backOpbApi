@@ -2,9 +2,10 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import routesUser from '../routes/user';
 import routesTroncal from '../routes/cargaTroncal';
-import { Product } from './product';
+import routesSeguimiento from '../routes/seguimiento';
 import { User } from './user';
 import { CargaTroncal } from './cargaTroncal';
+import { Seguimiento } from './seguimiento';
 
 class Server {
     private app: Application;
@@ -27,10 +28,11 @@ class Server {
     }
 
     routes() {
-        //this.app.use('/api/products', routesProduct);
         this.app.use('/api/users', routesUser);
         this.app.use('/api/troncal', routesTroncal);
         this.app.use('/api/troncal/insert', routesTroncal);
+        this.app.use('/api/seguimiento', routesSeguimiento);
+        this.app.use('/api/seguimiento/insert', routesSeguimiento);
     }
 
     midlewares() {
@@ -43,9 +45,9 @@ class Server {
 
     async dbConnect() {
         try {
-            await Product.sync()
             await User.sync();
             await CargaTroncal.sync();
+            await Seguimiento.sync();
         } catch (error) {
             console.error('Unable to connect to the database:', error);
         }

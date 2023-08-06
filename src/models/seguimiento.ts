@@ -1,16 +1,22 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
 
-export const Product = sequelize.define('product', {
+export const Seguimiento = sequelize.define('seguimiento', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    name: {
+    boleta: {
         type: DataTypes.STRING
     },
-    description: {
+    guia: {
         type: DataTypes.STRING
+    },
+    lpn: {
+        type: DataTypes.STRING
+    },
+    marcaPgd: {
+        type: DataTypes.INTEGER
     }
 }, )

@@ -8,12 +8,17 @@ export const CargaTroncal = sequelize.define('cargaTroncal', {
         autoIncrement: true
     },
     fecha_carga: {
-        type: DataTypes.DATEONLY
+        type: DataTypes.DATEONLY,
+        allowNull: false
     },
     tienda: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false
     },
     boleta: {
+        type: DataTypes.STRING
+    },
+    guia: {
         type: DataTypes.STRING
     },
     sku: {
@@ -48,5 +53,8 @@ export const CargaTroncal = sequelize.define('cargaTroncal', {
     },
     lpn: {
         type: DataTypes.STRING
+    },
+    marcaPgd: {
+        type: DataTypes.INTEGER
     }
 }, )
