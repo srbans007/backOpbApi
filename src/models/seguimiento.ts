@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
+import { CargaTroncal } from './cargaTroncal';
 
 export const Seguimiento = sequelize.define('seguimiento', {
     id: {
@@ -7,16 +8,12 @@ export const Seguimiento = sequelize.define('seguimiento', {
         primaryKey: true,
         autoIncrement: true
     },
-    boleta: {
-        type: DataTypes.STRING
-    },
-    guia: {
-        type: DataTypes.STRING
-    },
-    lpn: {
-        type: DataTypes.STRING
+    id_guia: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     },
     marcaPgd: {
         type: DataTypes.INTEGER
     }
-}, )
+}, );
+Seguimiento.belongsTo(CargaTroncal, { foreignKey: 'id_guia', as: 'cargaTroncal' });

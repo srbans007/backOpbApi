@@ -1,5 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
+import { Sucursal } from './sucursal';
+import { Tienda } from './tienda';
 
 export const CargaTroncal = sequelize.define('cargaTroncal', {
     id: {
@@ -11,8 +13,12 @@ export const CargaTroncal = sequelize.define('cargaTroncal', {
         type: DataTypes.DATEONLY,
         allowNull: false
     },
-    tienda: {
-        type: DataTypes.STRING,
+    id_sucursal: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    id_tienda: {
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     boleta: {
@@ -57,4 +63,7 @@ export const CargaTroncal = sequelize.define('cargaTroncal', {
     marcaPgd: {
         type: DataTypes.INTEGER
     }
-}, )
+},)
+
+CargaTroncal.belongsTo(Sucursal, { foreignKey: 'id_sucursal', as: 'sucursal' });
+CargaTroncal.belongsTo(Tienda, { foreignKey: 'id_tienda', as: 'tienda' });

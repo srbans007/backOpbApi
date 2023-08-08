@@ -3,9 +3,13 @@ import cors from 'cors';
 import routesUser from '../routes/user';
 import routesTroncal from '../routes/cargaTroncal';
 import routesSeguimiento from '../routes/seguimiento';
+import routesSucursal from '../routes/sucursal';
+import routesTienda from '../routes/tienda';
 import { User } from './user';
 import { CargaTroncal } from './cargaTroncal';
 import { Seguimiento } from './seguimiento';
+import { Sucursal } from './sucursal';
+import { Tienda } from './tienda';
 
 class Server {
     private app: Application;
@@ -33,6 +37,10 @@ class Server {
         this.app.use('/api/troncal/insert', routesTroncal);
         this.app.use('/api/seguimiento', routesSeguimiento);
         this.app.use('/api/seguimiento/insert', routesSeguimiento);
+        this.app.use('/api/sucursal', routesSucursal);
+        this.app.use('/api/sucursal/insert', routesSucursal);
+        this.app.use('/api/tienda', routesTienda);
+        this.app.use('/api/tienda/insert', routesTienda);
     }
 
     midlewares() {
@@ -46,6 +54,8 @@ class Server {
     async dbConnect() {
         try {
             await User.sync();
+            await Sucursal.sync();
+            await Tienda.sync();
             await CargaTroncal.sync();
             await Seguimiento.sync();
         } catch (error) {
