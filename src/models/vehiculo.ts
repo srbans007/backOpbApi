@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
 import { Sucursal } from './sucursal';
 
-export const TipoRuta = sequelize.define('tipoRuta', {
+export const Vehiculo = sequelize.define('vehiculo', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -12,9 +12,9 @@ export const TipoRuta = sequelize.define('tipoRuta', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    nombre_ruta: {
+    patente: {
         type: DataTypes.STRING
     }
 }, )
 
-TipoRuta.belongsTo(Sucursal, { foreignKey: 'id_sucursal', as: 'sucursal' });
+Vehiculo.belongsTo(Sucursal, { foreignKey: 'id_sucursal', as: 'sucursal' });

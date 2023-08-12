@@ -7,6 +7,7 @@ import routesSeguimiento from '../routes/seguimiento';
 import routesSucursal from '../routes/sucursal';
 import routesTienda from '../routes/tienda';
 import routesTipoRuta from '../routes/tipoRuta';
+import routesVehiculo from '../routes/vehiculo';
 
 import { User } from './user';
 import { CargaTroncal } from './cargaTroncal';
@@ -14,6 +15,7 @@ import { Seguimiento } from './seguimiento';
 import { Sucursal } from './sucursal';
 import { Tienda } from './tienda';
 import { TipoRuta } from './tipoRuta';
+import { Vehiculo } from './vehiculo';
 
 class Server {
     private app: Application;
@@ -55,6 +57,10 @@ class Server {
         this.app.use('/api/tipoRuta', routesTipoRuta);
         this.app.use('/api/tipoRuta/insert', routesTipoRuta);
         this.app.use('/api/tipoRuta/eliminar', routesTipoRuta);
+
+        this.app.use('/api/vehiculo', routesVehiculo);
+        this.app.use('/api/vehiculo/insert', routesVehiculo);
+        this.app.use('/api/vehiculo/eliminar', routesVehiculo);
     }
 
     midlewares() {
@@ -73,6 +79,7 @@ class Server {
             await CargaTroncal.sync();
             await Seguimiento.sync();
             await TipoRuta.sync();
+            await Vehiculo.sync();
         } catch (error) {
             console.error('Unable to connect to the database:', error);
         }
