@@ -1,15 +1,19 @@
 import express, { Application } from 'express';
 import cors from 'cors';
+
 import routesUser from '../routes/user';
 import routesTroncal from '../routes/cargaTroncal';
 import routesSeguimiento from '../routes/seguimiento';
 import routesSucursal from '../routes/sucursal';
 import routesTienda from '../routes/tienda';
+import routesTipoRuta from '../routes/tipoRuta';
+
 import { User } from './user';
 import { CargaTroncal } from './cargaTroncal';
 import { Seguimiento } from './seguimiento';
 import { Sucursal } from './sucursal';
 import { Tienda } from './tienda';
+import { TipoRuta } from './tipoRuta';
 
 class Server {
     private app: Application;
@@ -33,14 +37,24 @@ class Server {
 
     routes() {
         this.app.use('/api/users', routesUser);
+
         this.app.use('/api/troncal', routesTroncal);
         this.app.use('/api/troncal/insert', routesTroncal);
+
         this.app.use('/api/seguimiento', routesSeguimiento);
         this.app.use('/api/seguimiento/insert', routesSeguimiento);
+
         this.app.use('/api/sucursal', routesSucursal);
         this.app.use('/api/sucursal/insert', routesSucursal);
+        this.app.use('/api/sucursal/eliminar', routesSucursal);
+        
         this.app.use('/api/tienda', routesTienda);
         this.app.use('/api/tienda/insert', routesTienda);
+        this.app.use('/api/tienda/eliminar', routesTienda);
+
+        this.app.use('/api/tipoRuta', routesTipoRuta);
+        this.app.use('/api/tipoRuta/insert', routesTipoRuta);
+        this.app.use('/api/tipoRuta/eliminar', routesTipoRuta);
     }
 
     midlewares() {
@@ -58,6 +72,7 @@ class Server {
             await Tienda.sync();
             await CargaTroncal.sync();
             await Seguimiento.sync();
+            await TipoRuta.sync();
         } catch (error) {
             console.error('Unable to connect to the database:', error);
         }

@@ -1,37 +1,37 @@
 import { Request, Response } from 'express';
-import { Sucursal } from '../models/sucursal';
+import { TipoRuta } from '../models/tipoRuta';
 
-export const getSucursal = async (req: Request, res: Response) => {
-    const listSucursal = await Sucursal.findAll();
+export const getTipoRuta = async (req: Request, res: Response) => {
+    const listTipoRuta = await TipoRuta.findAll();
 
-    res.json(listSucursal)
+    res.json(listTipoRuta)
 }
 
-export const insertSucursal = async (req: Request, res: Response) => {
+export const insertTipoRuta = async (req: Request, res: Response) => {
     try {
-      const newSucursal = await Sucursal.bulkCreate(req.body);
-      res.json(newSucursal);
+      const newTipoRuta = await TipoRuta.bulkCreate(req.body);
+      res.json(newTipoRuta);
     } catch (error) {
       console.error(error);
       res.status(400).json({ error: 'Error al insertar datos' });
     }
   }
 
-  export const deleteSucursales = async (req: Request, res: Response) => {
+  export const deleteTipoRuta = async (req: Request, res: Response) => {
     try {
         // Extrae el array de objetos con IDs directamente del cuerpo de la solicitud
-        const sucursalesToDelete = req.body;
+        const tipoRutaToDelete = req.body;
 
         // Verifica que sea un array
-        if (!Array.isArray(sucursalesToDelete)) {
+        if (!Array.isArray(tipoRutaToDelete)) {
             return res.status(400).json({ error: 'El cuerpo debe contener un array de objetos con IDs' });
         }
 
         // Convierte el array de objetos en un array de IDs
-        const ids = sucursalesToDelete.map(sucursal => sucursal.id);
+        const ids = tipoRutaToDelete.map(tipoRuta => tipoRuta.id);
 
         // Elimina los registros basados en el array de IDs
-        const result = await Sucursal.destroy({
+        const result = await TipoRuta.destroy({
             where: {
                 id: ids
             }
@@ -48,4 +48,3 @@ export const insertSucursal = async (req: Request, res: Response) => {
         res.status(400).json({ error: 'Error al eliminar los registros' });
     }
 }
-
