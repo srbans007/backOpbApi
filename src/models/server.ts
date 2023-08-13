@@ -8,6 +8,8 @@ import routesSucursal from '../routes/sucursal';
 import routesTienda from '../routes/tienda';
 import routesTipoRuta from '../routes/tipoRuta';
 import routesVehiculo from '../routes/vehiculo';
+import routesTransportista from '../routes/transportista';
+import routesTipoTransporte from '../routes/tipoTransporte';
 
 import { User } from './user';
 import { CargaTroncal } from './cargaTroncal';
@@ -16,6 +18,8 @@ import { Sucursal } from './sucursal';
 import { Tienda } from './tienda';
 import { TipoRuta } from './tipoRuta';
 import { Vehiculo } from './vehiculo';
+import { Transportista } from './transportista';
+import { TipoTransporte } from './tipoTransporte';
 
 class Server {
     private app: Application;
@@ -61,6 +65,14 @@ class Server {
         this.app.use('/api/vehiculo', routesVehiculo);
         this.app.use('/api/vehiculo/insert', routesVehiculo);
         this.app.use('/api/vehiculo/eliminar', routesVehiculo);
+
+        this.app.use('/api/tipoTransporte', routesTipoTransporte);
+        this.app.use('/api/tipoTransporte/insert', routesTipoTransporte);
+        this.app.use('/api/tipoTransporte/eliminar', routesTipoTransporte);
+
+        this.app.use('/api/transportista', routesTransportista);
+        this.app.use('/api/transportista/insert', routesTransportista);
+        this.app.use('/api/transportista/eliminar', routesTransportista);
     }
 
     midlewares() {
@@ -80,6 +92,8 @@ class Server {
             await Seguimiento.sync();
             await TipoRuta.sync();
             await Vehiculo.sync();
+            await TipoTransporte.sync();
+            await Transportista.sync();
         } catch (error) {
             console.error('Unable to connect to the database:', error);
         }
