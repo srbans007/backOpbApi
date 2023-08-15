@@ -10,6 +10,8 @@ import routesTipoRuta from '../routes/tipoRuta';
 import routesVehiculo from '../routes/vehiculo';
 import routesTransportista from '../routes/transportista';
 import routesTipoTransporte from '../routes/tipoTransporte';
+import routesTim from '../routes/tim';
+import routesRuta from '../routes/ruta';
 
 import { User } from './user';
 import { CargaTroncal } from './cargaTroncal';
@@ -20,6 +22,9 @@ import { TipoRuta } from './tipoRuta';
 import { Vehiculo } from './vehiculo';
 import { Transportista } from './transportista';
 import { TipoTransporte } from './tipoTransporte';
+import { TipoTim } from './tim';
+import { Ruta } from './ruta';
+
 
 class Server {
     private app: Application;
@@ -73,6 +78,15 @@ class Server {
         this.app.use('/api/transportista', routesTransportista);
         this.app.use('/api/transportista/insert', routesTransportista);
         this.app.use('/api/transportista/eliminar', routesTransportista);
+
+        this.app.use('/api/tim', routesTim);
+        this.app.use('/api/tim/insert', routesTim);
+        this.app.use('/api/tim/eliminar', routesTim);
+
+        this.app.use('/api/ruta', routesRuta);
+        this.app.use('/api/ruta/insert', routesRuta);
+        this.app.use('/api/ruta/eliminar', routesRuta);
+        this.app.use('/api/ruta/update', routesRuta);
     }
 
     midlewares() {
@@ -94,6 +108,8 @@ class Server {
             await Vehiculo.sync();
             await TipoTransporte.sync();
             await Transportista.sync();
+            await TipoTim.sync();
+            await Ruta.sync();
         } catch (error) {
             console.error('Unable to connect to the database:', error);
         }
