@@ -51,11 +51,24 @@ export const deleteRuta = async (req: Request, res: Response) => {
 
 export const updateRuta = async (req: Request, res: Response) => {
     try {
-        // Extrae el ID de la ruta desde los parámetros de la URL
-        const id = req.params.id;
+        // Extrae el array de rutas desde el cuerpo de la solicitud
+        const rutasToUpdate = req.body;
+
+        // Verifica que sea un array
+        if (!Array.isArray(rutasToUpdate) || rutasToUpdate.length !== 1) {
+            return res.status(400).json({ error: 'El cuerpo debe contener un array de un solo objeto para actualizar.' });
+        }
+
+        // Extrae el ID del primer objeto del array
+        const { id } = rutasToUpdate[0];
+
+        // Si no se proporciona un ID, devuelve un error
+        if (!id) {
+            return res.status(400).json({ error: 'Se requiere un ID en el objeto.' });
+        }
 
         // Actualiza el registro en la base de datos
-        const [updatedRows] = await Ruta.update(req.body, {
+        const [updatedRows] = await Ruta.update(rutasToUpdate[0], {
             where: {
                 id: id
             }
@@ -73,3 +86,5 @@ export const updateRuta = async (req: Request, res: Response) => {
         res.status(400).json({ error: 'Error al actualizar la ruta' });
     }
 }
+
+
