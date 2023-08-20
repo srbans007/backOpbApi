@@ -12,6 +12,7 @@ import routesTransportista from '../routes/transportista';
 import routesTipoTransporte from '../routes/tipoTransporte';
 import routesTim from '../routes/tim';
 import routesRuta from '../routes/ruta';
+import routesGuiaRuta from '../routes/guiaRuta';
 
 import { User } from './user';
 import { CargaTroncal } from './cargaTroncal';
@@ -24,6 +25,7 @@ import { Transportista } from './transportista';
 import { TipoTransporte } from './tipoTransporte';
 import { TipoTim } from './tim';
 import { Ruta } from './ruta';
+import { GuiaRuta } from './guiaRuta';
 
 
 class Server {
@@ -87,6 +89,11 @@ class Server {
         this.app.use('/api/ruta/insert', routesRuta);
         this.app.use('/api/ruta/eliminar', routesRuta);
         this.app.use('/api/ruta/update', routesRuta);
+
+        this.app.use('/api/guia', routesGuiaRuta);
+        this.app.use('/api/guia/id', routesGuiaRuta);
+        this.app.use('/api/guia/insert', routesGuiaRuta);
+        this.app.use('/api/guia/eliminar', routesGuiaRuta);
     }
 
     midlewares() {
@@ -110,6 +117,7 @@ class Server {
             await Transportista.sync();
             await TipoTim.sync();
             await Ruta.sync();
+            await GuiaRuta.sync();
         } catch (error) {
             console.error('Unable to connect to the database:', error);
         }

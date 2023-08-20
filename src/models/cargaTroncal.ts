@@ -39,6 +39,9 @@ export const CargaTroncal = sequelize.define('cargaTroncal', {
     bulto: {
         type: DataTypes.INTEGER
     },
+    cliente: {
+        type: DataTypes.STRING
+    },
     rut_cliente: {
         type: DataTypes.STRING
     },
