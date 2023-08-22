@@ -112,13 +112,13 @@ class Server {
             await Sucursal.sync();
             await Tienda.sync();
             await CargaTroncal.sync();
-            await Seguimiento.sync();
             await TipoRuta.sync();
             await Vehiculo.sync();
             await TipoTransporte.sync();
             await Transportista.sync();
             await TipoTim.sync();
             await Ruta.sync();
+            await Seguimiento.sync();
             await GuiaRuta.sync();
         } catch (error) {
             console.error('Unable to connect to the database:', error);
