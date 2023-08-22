@@ -54,6 +54,7 @@ class Server {
         this.app.use('/api/troncal', routesTroncal);
         this.app.use('/api/troncal/insert', routesTroncal);
         this.app.use('/api/troncal/buscar', routesTroncal);
+        this.app.use('/api/troncal/update', routesTroncal);
 
         this.app.use('/api/seguimiento', routesSeguimiento);
         this.app.use('/api/seguimiento/insert', routesSeguimiento);

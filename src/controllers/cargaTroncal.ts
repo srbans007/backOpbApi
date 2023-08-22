@@ -87,3 +87,40 @@ export const insertTroncal = async (req: Request, res: Response) => {
     }
 }
  
+export const updateTroncal = async (req: Request, res: Response) => {
+    try {
+        // Extrae el array de rutas desde el cuerpo de la solicitud
+        const cargaToUpdate = req.body;
+
+        // Verifica que sea un array
+        if (!Array.isArray(cargaToUpdate) || cargaToUpdate.length !== 1) {
+            return res.status(400).json({ error: 'El cuerpo debe contener un array de un solo objeto para actualizar.' });
+        }
+
+        // Extrae el ID del primer objeto del array
+        const { id } = cargaToUpdate[0];
+
+        // Si no se proporciona un ID, devuelve un error
+        if (!id) {
+            return res.status(400).json({ error: 'Se requiere un ID en el objeto.' });
+        }
+
+        // Actualiza el registro en la base de datos
+        const [updatedRows] = await CargaTroncal.update(cargaToUpdate[0], {
+            where: {
+                id: id
+            }
+        });
+
+        // Verifica si se actualizó algún registro
+        if (updatedRows > 0) {
+            res.json({ message: 'guia actualizada con éxito' });
+        } else {
+            res.status(404).json({ error: 'No se encontró la guia para actualizar' });
+        }
+        
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ error: 'Error al actualizar la guia' });
+    }
+}
