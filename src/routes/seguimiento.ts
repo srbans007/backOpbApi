@@ -4,7 +4,7 @@ import validateToken from './validate-token';
 
 const router = Router();
 
-router.get('/',validateToken, getSeguimiento)
+router.get('/',validateToken, getSeguimiento);
 router.post('/insert', validateToken, insertSeguimiento);
 
 export default router;

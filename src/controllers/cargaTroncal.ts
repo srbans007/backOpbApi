@@ -4,6 +4,9 @@ import { Op } from 'sequelize'; // Importa el operador de Sequelize
 import { GuiaRuta } from '../models/guiaRuta';
 import { Ruta } from '../models/ruta';
 import { Tienda } from '../models/tienda';
+import { Seguimiento } from '../models/seguimiento';
+import { TipoTransporte } from '../models/tipoTransporte';
+import { Transportista } from '../models/transportista';
 
 export const getTroncal = async (req: Request, res: Response) => {
     const listTroncal = await CargaTroncal.findAll();
@@ -52,7 +55,66 @@ export const getDatosGuiaRuta = async (req: Request, res: Response) => {
     }
 }
 
+export const getSeguimientoTroncal = async (req: Request, res: Response) => {
+  try {
+    const listGuiaRuta = await GuiaRuta.findAll({
+      include: [
+        {
+          model: CargaTroncal,
+          as: 'guia',
+          where: { marcaPgd: 2 },
+          attributes: ['guia', 'marcaPgd', 'boleta', 'lpn', 'producto'],
+          include: [
+            {
+              model: Tienda, 
+              as: 'tienda',
+              attributes: ['nombre_tienda']
+            }
+          ]
+        },
+        {
+          model: Ruta,
+          as: 'ruta',
+          attributes: ['id_chofer', 'id_ayudante'],
+          include: [
+            {
+              model: Transportista,
+              as: 'chofer',
+              attributes: ['nombres', 'apellidos', 'id_transporte'],
+              include: [
+                {
+                  model: TipoTransporte,
+                  as: 'tipoTransporte',
+                  attributes: ['transporte']
+                }
+              ]
+            },
+            {
+              model: Transportista,
+              as: 'ayudante',
+              attributes: ['nombres', 'apellidos', 'id_transporte'],
+              include: [
+                {
+                  model: TipoTransporte,
+                  as: 'tipoTransporte',
+                  attributes: ['transporte']
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    });
 
+    res.json(listGuiaRuta);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: 'Error al obtener datos'});
+  }
+}
+
+
+  
 
 export const insertTroncal = async (req: Request, res: Response) => {
     try {

@@ -1,11 +1,15 @@
 import { Request, Response } from 'express';
 import { Seguimiento } from '../models/seguimiento';
 
+
+
 export const getSeguimiento = async (req: Request, res: Response) => {
   const listSeguimiento = await Seguimiento.findAll();
 
   res.json(listSeguimiento)
 }
+
+
 
 export const insertSeguimiento = async (req: Request, res: Response) => {
     try {
