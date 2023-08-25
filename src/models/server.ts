@@ -13,6 +13,7 @@ import routesTipoTransporte from '../routes/tipoTransporte';
 import routesTim from '../routes/tim';
 import routesRuta from '../routes/ruta';
 import routesGuiaRuta from '../routes/guiaRuta';
+import routesGuiaProcesada from '../routes/guiaProcesada';
 
 import { User } from './user';
 import { CargaTroncal } from './cargaTroncal';
@@ -26,6 +27,8 @@ import { TipoTransporte } from './tipoTransporte';
 import { TipoTim } from './tim';
 import { Ruta } from './ruta';
 import { GuiaRuta } from './guiaRuta';
+import { GuiaProcesada } from './guiaProcesada';
+
 
 
 class Server {
@@ -97,6 +100,13 @@ class Server {
         this.app.use('/api/guia/id', routesGuiaRuta);
         this.app.use('/api/guia/insert', routesGuiaRuta);
         this.app.use('/api/guia/eliminar', routesGuiaRuta);
+
+        this.app.use('/api/guiaProcesada', routesGuiaProcesada);
+        this.app.use('/api/guiaProcesada/insert', routesGuiaProcesada);
+        this.app.use('/api/guiaProcesada/buscarGuiaRuta', routesGuiaProcesada);
+        this.app.use('/api/guiaProcesada/buscar', routesGuiaProcesada);
+        this.app.use('/api/guiaProcesada/update', routesGuiaProcesada);
+
     }
 
     midlewares() {
@@ -120,7 +130,9 @@ class Server {
             await TipoTim.sync();
             await Ruta.sync();
             await Seguimiento.sync();
+            await GuiaProcesada.sync();
             await GuiaRuta.sync();
+            
         } catch (error) {
             console.error('Unable to connect to the database:', error);
         }

@@ -113,9 +113,6 @@ export const getSeguimientoTroncal = async (req: Request, res: Response) => {
   }
 }
 
-
-  
-
 export const insertTroncal = async (req: Request, res: Response) => {
     try {
       const newTroncal = await CargaTroncal.bulkCreate(req.body);

@@ -2,6 +2,7 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
 import { CargaTroncal } from './cargaTroncal';
 import { Ruta } from './ruta';
+import { GuiaProcesada } from './guiaProcesada';
 
 export const GuiaRuta = sequelize.define('guiaRuta', {
     id: {
