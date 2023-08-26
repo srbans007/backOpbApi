@@ -11,7 +11,7 @@ import { Op } from 'sequelize';
 export const getGuiaProcesada = async (req: Request, res: Response) => {
     try {
         const listGuiaProcesada = await GuiaProcesada.findAll({
-            attributes: ['boleta', 'estado', 'subestado', 'codigo', 'comentario_beetrack'],
+            attributes: ['boleta', 'fecha_entregado', 'estado', 'subestado', 'codigo', 'comentario_beetrack'],
             include: [
                 {
                     model: GuiaRuta,
@@ -20,7 +20,7 @@ export const getGuiaProcesada = async (req: Request, res: Response) => {
                         {
                             model: CargaTroncal,
                             as: 'guia',
-                            attributes: ['guia', 'marcaPgd', 'boleta', 'lpn', 'producto'],
+                            attributes: ['guia', 'marcaPgd', 'boleta', 'lpn', 'producto', 'cliente', 'direccion_cliente', 'comuna_cliente'],
                             include: [
                                 {
                                     model: Tienda,
@@ -32,7 +32,7 @@ export const getGuiaProcesada = async (req: Request, res: Response) => {
                         {
                             model: Ruta,
                             as: 'ruta',
-                            attributes: ['id_chofer', 'id_ayudante'],
+                            attributes: ['id_chofer', 'id_ayudante', 'createdAt'],
                             include: [
                                 {
                                     model: Transportista,
