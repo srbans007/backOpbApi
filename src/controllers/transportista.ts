@@ -1,11 +1,20 @@
 import { Request, Response } from 'express';
 import { Transportista } from '../models/transportista';
+import { TipoTransporte } from '../models/tipoTransporte';
 
 export const getTransportista = async (req: Request, res: Response) => {
-    const listTransportista = await Transportista.findAll();
+    const listTransportista = await Transportista.findAll({
+        include: [
+            {
+                model: TipoTransporte,
+                as: 'tipoTransporte',
+                attributes: ['id', 'transporte'],  // Lista de campos que quieres incluir
+            },
+        ],
+    });
 
-    res.json(listTransportista)
-}
+    res.json(listTransportista);
+};
 
 export const insertTransportista = async (req: Request, res: Response) => {
     try {
